@@ -19,7 +19,7 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -44,12 +44,12 @@ class Order
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?Users
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?Users $user): self
     {
         $this->user = $user;
 
