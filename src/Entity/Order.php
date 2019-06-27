@@ -19,12 +19,6 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Users", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdDate;
@@ -34,6 +28,12 @@ class Order
      */
     private $orderProducts;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userOwner;
+
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
@@ -42,18 +42,6 @@ class Order
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?Users
-    {
-        return $this->user;
-    }
-
-    public function setUser(?Users $user): self
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getCreatedDate(): ?\DateTimeInterface
@@ -95,6 +83,18 @@ class Order
                 $orderProduct->setOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserOwner(): ?User
+    {
+        return $this->userOwner;
+    }
+
+    public function setUserOwner(?User $userOwner): self
+    {
+        $this->userOwner = $userOwner;
 
         return $this;
     }
