@@ -24,7 +24,7 @@
         <div class="order">
             <h3>Заказ</h3>
             <div class="orderList">
-                <form action="makeOrder">
+                <form class="createOrderForm" action="/make-order" method="POST" onsubmit="return false;">
                     {% for productCategory in productCategoryes %}
                         <div>
                             <span>{{ productCategory.name }}</span>
@@ -32,18 +32,17 @@
                                 {% for productType in productCategory.productTypes %}
                                     <div class="productType">
                                         <span class="productTypeName">{{ productType.name }}</span>
-                                        <input name="{{ productType.id }}" type="text" readonly value="0">
+                                        <input class="productCount" name="{{ productType.id }}" type="text" readonly value="0">
                                     </div>
                                 {% endfor %}
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="orderBtnDiv">
+                        <button class="orderBtn"> заказать </button>
+                    </div>
                 </form>
             </div>
-            <div class="orderBtnDiv">
-                <button class="orderBtn"> заказать </button>
-            </div>
-
         </div>
     </div>
 {%  endblock %}
