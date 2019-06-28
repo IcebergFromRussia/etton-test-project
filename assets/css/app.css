@@ -1,0 +1,11 @@
+body {
+    background-color: lightgray;
+}
+
+.mainBlock{
+    width: 800px;
+    margin: auto;
+}
+.categories{
+    width: 400px;
+}

@@ -1,2 +1,48 @@
-<h1>Hello {{ user.name }}</h1>
-<h2>Your lucky number is {{ number }}</h2>
+{% extends "base.html.twig" %}
+
+{% block mainblock %}
+    <h1>Hello {{ user.name }}</h1>
+    <h2>Your lucky number is {{ number }}</h2>
+    <div class="mainBlock">
+        <div class="categories">
+            <h3>Список товаров</h3>
+            {% for productCategory in productCategoryes %}
+                <div>
+                    <span>{{ productCategory.name }}</span>
+                    <div class="productTypeList">
+                        {% for productType in productCategory.productTypes %}
+                                <div class="productType">
+                                    <span class="productTypeName">{{ productType.name }}</span>
+                                    <button class="addInOrderBtn" productId="{{ productType.id }}">добавить в заказ</button>
+                                </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="order">
+            <h3>Заказ</h3>
+            <div class="orderList">
+                <form action="makeOrder">
+                    {% for productCategory in productCategoryes %}
+                        <div>
+                            <span>{{ productCategory.name }}</span>
+                            <div class="productTypeList">
+                                {% for productType in productCategory.productTypes %}
+                                    <div class="productType">
+                                        <span class="productTypeName">{{ productType.name }}</span>
+                                        <input name="{{ productType.id }}" type="text" readonly>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <button class="orderBtn"> заказать </button>
+        </div>
+    </div>
+{%  endblock %}
+
+
