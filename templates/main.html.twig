@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block mainblock %}
+{% block body %}
     <h1>Hello {{ user.name }}</h1>
     <h2>Your lucky number is {{ number }}</h2>
     <div class="mainBlock">
@@ -32,7 +32,7 @@
                                 {% for productType in productCategory.productTypes %}
                                     <div class="productType">
                                         <span class="productTypeName">{{ productType.name }}</span>
-                                        <input name="{{ productType.id }}" type="text" readonly>
+                                        <input name="{{ productType.id }}" type="text" readonly value="0">
                                     </div>
                                 {% endfor %}
                             </div>
@@ -40,7 +40,10 @@
                     {% endfor %}
                 </form>
             </div>
-            <button class="orderBtn"> заказать </button>
+            <div class="orderBtnDiv">
+                <button class="orderBtn"> заказать </button>
+            </div>
+
         </div>
     </div>
 {%  endblock %}

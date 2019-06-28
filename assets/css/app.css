@@ -3,9 +3,38 @@ body {
 }
 
 .mainBlock{
-    width: 800px;
+    width: 1200px;
     margin: auto;
 }
 .categories{
-    width: 400px;
+    width: 500px;
+    display: inline-block;
+}
+.order{
+    width: 500px;
+    display: inline-block;
+}
+.productType{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 50px;
+}
+.addInOrderBtn{
+    float: right;
+}
+.productType input{
+    width: 50px;
+    float: right;
+}
+.orderList{
+    width: 80%;
+    margin: auto;
+}
+.orderBtn{
+    width: 100px;
+    margin: auto;
+}
+.orderBtnDiv{
+    width: 80%;
+    margin: auto;
 }
