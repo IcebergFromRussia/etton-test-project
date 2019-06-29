@@ -4,3 +4,6 @@ index:
 make_order:
     path: /make-order
     controller: App\Controller\OrderController::makeOrder
+order_list:
+    path: /order-list
+    controller: App\Controller\OrderController::orderList

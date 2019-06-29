@@ -13,6 +13,7 @@ use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\ProdectType;
 use App\Exception\MakeOrderException;
+use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,6 +21,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class OrderController extends AbstractController
 {
+
+
+    /**
+     * @var OrderRepository
+     */
+    private $repository;
+
+    public function __construct(OrderRepository $repository)
+    {
+
+        $this->repository = $repository;
+    }
 
     /**
      * @IsGranted("ROLE_USER")
@@ -32,8 +45,6 @@ class OrderController extends AbstractController
         $order->setUserOwner($this->getUser());
 
         $manager = $this->getDoctrine()->getManager();
-
-        $manager->persist($order);
 
         $returnData = [
             'flag' => 'success',
@@ -63,11 +74,12 @@ class OrderController extends AbstractController
                     ->setOrder($order);
 
                 $productToSaveCount++;
-                $manager->persist($orderProduct);
+                $order->addOrderProduct($orderProduct);
             }
             if($productToSaveCount == 0){
                 throw new MakeOrderException('Заказ пустой');
             }
+            $manager->persist($order);
             $manager->flush();
         }
         catch (MakeOrderException $exception){
@@ -77,8 +89,37 @@ class OrderController extends AbstractController
         catch (\Exception $exception){
             $returnData['flag'] = 'error';
             $returnData['msg'] = 'возникла ошибка при сохранении заказа';
+            $returnData['msg'] = $exception->getMessage();
         }
 
         return $this->json($returnData);
+    }
+
+    /**
+     * @IsGranted("ROLE_USER")
+     * @param Request $request
+     * @return Response
+     */
+    public function orderList(Request $request){
+
+        $orderBy = $request->query->get('orderBy');
+        //тут я не уверен что это правильное решение
+        // думал использовать dql, но тоже показалось
+        // не лучшим вариантом
+        $orderFieldList = [
+            'createdDate',
+            'count'
+        ];
+
+        $orderField = 'id';
+
+        if(!empty($orderBy) && in_array($orderBy, $orderFieldList)){
+            $orderField = $orderBy;
+        }
+        $orders = $this->repository->findByUserField($this->getUser(), $orderField);
+
+        return $this->render('order list.html.twig', [
+            'orders' => $orders,
+        ]);
     }
 }

@@ -13,6 +13,15 @@
 </head>
 <body>
 <!-- ... -->
+
+{% block menu %}
+    <h2> Меню </h2>
+    <ul>
+        <li><a href="/order-list"> список заказов</a></li>
+        <li><a href="/"> создать заказ </a></li>
+    </ul>
+{% endblock %}
+
 {% block body %}
 {%  endblock %}
 

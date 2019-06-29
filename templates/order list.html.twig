@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="mainBlock">
+        <div class="filter">
+            <a href="/order-list?orderBy=count"><button>сортировать по количеству</button></a>
+            <a href="/order-list?orderBy=createdDate"><button>сортировать по дате</button></a>
+        </div>
+
+        <div class="orderList">
+            {% for order in orders %}
+                <div class="order">
+
+                    <div class="orderFields">
+                        <span>дата создания: {{ order.createdDate|date("m/d/Y") }}</span>
+                        <span>количество: {{ order.count }}</span>
+                    </div>
+                    <div class="orderProducts">
+                        {% for product in order.orderProducts %}
+                            <div class="orderProduct">
+                                <span>{{ product.productType.name }}</span>
+                                <span>количество: {{ product.count }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{%  endblock %}

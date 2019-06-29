@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="etton_order")
  * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Order
 {
@@ -25,7 +26,7 @@ class Order
     private $createdDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="orderId")
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="order", cascade={"persist", "remove"})
      */
     private $orderProducts;
 
@@ -34,6 +35,11 @@ class Order
      * @ORM\JoinColumn(nullable=false)
      */
     private $userOwner;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $count;
 
     public function __construct()
     {
@@ -99,5 +105,28 @@ class Order
         $this->userOwner = $userOwner;
 
         return $this;
+    }
+
+    public function getCount(): ?int
+    {
+        return $this->count;
+    }
+
+    public function setCount(int $count): self
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function calculateCount(){
+        $count = 0;
+        foreach ($this->getOrderProducts() as $product){
+            $count+= $product->getCount();
+        }
+        $this->count = $count;
     }
 }
